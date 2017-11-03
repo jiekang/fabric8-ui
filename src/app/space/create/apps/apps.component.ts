@@ -11,6 +11,7 @@ import { AppsService } from './services/apps.service';
 export class AppsComponent implements OnInit {
   spaceId: string;
   environments: string[];
+  applications: string[];
 
   constructor(
     private router: Router,
@@ -25,6 +26,7 @@ export class AppsComponent implements OnInit {
 
   private updateResources(): void {
     this.appsService.getEnvironments(this.spaceId).subscribe(val => this.environments = val);
+    this.appsService.getApplications(this.spaceId).subscribe(val => this.applications = val);
   }
 
 }
