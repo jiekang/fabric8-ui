@@ -29,6 +29,10 @@ export class AppsService {
     this.spacesUrl = apiUrl + 'spaces';
   }
 
+  getApplications(spaceId: string): Observable<string[]> {
+    return Observable.of(['vertx-hello', 'vertx-paint', 'vertx-wiki']);
+  }
+
   getEnvironments(spaceId: string): Observable<Environment[]> {
     return Observable.of([
       { environmentId: 'envId-stage', name: 'stage' } as Environment,

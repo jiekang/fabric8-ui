@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import {
   AppsService,
-  Environment,
+  Environment
 } from './services/apps.service';
 
 @Component({
@@ -14,6 +14,7 @@ import {
 export class AppsComponent implements OnInit {
   spaceId: string;
   environments: Environment[];
+  applications: string[];
 
   constructor(
     private router: Router,
@@ -28,6 +29,7 @@ export class AppsComponent implements OnInit {
 
   private updateResources(): void {
     this.appsService.getEnvironments(this.spaceId).subscribe(val => this.environments = val);
+    this.appsService.getApplications(this.spaceId).subscribe(val => this.applications = val);
   }
 
 }
