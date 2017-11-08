@@ -9,7 +9,8 @@ import {
 @Component({
   encapsulation: ViewEncapsulation.None,
   selector: 'alm-apps',
-  templateUrl: 'apps.component.html'
+  templateUrl: 'apps.component.html',
+  styleUrls: ['./apps.component.less']
 })
 export class AppsComponent implements OnInit {
   spaceId: string;
