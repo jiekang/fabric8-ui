@@ -11,7 +11,7 @@
     <div class="row row-cards-pf">
       <div class="col-xs-12 col-sm-4 col-md-2"></div>
       <div class="col-xs-12 col-sm-4 col-md-3" *ngFor="let environment of environments">
-        <h4 class="env-card-title">{{ environment.name }}</h4>
+        <h4 class="resource-card-title">{{ environment.name }}</h4>
       </div>
     </div>
   </div>
@@ -28,8 +28,8 @@
   </div>
 
   <div class="row panel panel-default">
-    <div class="panel-body cards-pf resource-card-color">
-      <div class="container-fluid container-cards-pf resource-card">
+    <div class="panel-body cards-pf resource-card">
+      <div class="container-fluid container-cards-pf">
         <div class="row row-cards-pf">
           <div class="col-xs-12 col-sm-4 col-md-2">
             <h3><strong><a class="resource-title"
@@ -38,7 +38,7 @@
           <div [collapse]="resourcesCollapsed">
             <div class="col-xs-12 col-sm-4 col-md-3" *ngFor="let environment of environments">
               <div class="card-pf">
-                <div class="card-pf-body card-progress">
+                <div class="card-pf-body resource-card-body">
                   <div class="progress-container progress-description-left progress-label-right">
                     <div class="progress-description">
                       CPU (Cores)
