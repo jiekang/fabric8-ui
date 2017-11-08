@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Http } from '@angular/http';
 
 import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
 
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 import { AppsComponent } from './apps.component';
+import { AppCardComponent } from './components/app-card.component';
 import { AppsRoutingModule } from './apps-routing.module';
 
 import { AppsService } from './services/apps.service';
@@ -15,10 +17,14 @@ import { AppsService } from './services/apps.service';
   imports: [
     BsDropdownModule.forRoot(),
     CollapseModule.forRoot(),
+    AccordionModule.forRoot(),
     CommonModule,
     AppsRoutingModule
   ],
-  declarations: [AppsComponent],
+  declarations: [
+    AppsComponent,
+    AppCardComponent
+  ],
   providers: [
     BsDropdownConfig,
     AppsService
