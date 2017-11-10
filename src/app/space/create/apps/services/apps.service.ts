@@ -15,6 +15,8 @@ export declare interface MemoryStat extends Stat {}
 
 export declare interface CpuStat extends Stat {}
 
+export declare interface NetworkStat extends Stat {}
+
 @Injectable()
 export class AppsService {
 
@@ -42,13 +44,23 @@ export class AppsService {
     return Observable
       .interval(AppsService.POLL_RATE_MS)
       .distinctUntilChanged()
-      .map(() => ({ used: Math.floor(Math.random() * 9) + 1, total: 10 } as CpuStat));
-  }
+      .map(() => ({ used: Math.floor(Math.random() * 9) + 1, total: 10 } as CpuStat))
+      .startWith({ used: 3, total: 10 } as CpuStat);
+    }
 
   getMemoryStat(spaceId: string, environmentId: string): Observable<MemoryStat> {
     return Observable
       .interval(AppsService.POLL_RATE_MS)
       .distinctUntilChanged()
-      .map(() => ({ used: Math.floor(Math.random() * 156) + 100, total: 256 } as MemoryStat));
+      .map(() => ({ used: Math.floor(Math.random() * 156) + 100, total: 256 } as MemoryStat))
+      .startWith({ used: 200, total: 256 } as MemoryStat);
+  }
+
+  getNetworkStat(spaceId: string, environmentId: string): Observable<MemoryStat> {
+    return Observable
+      .interval(AppsService.POLL_RATE_MS)
+      .distinctUntilChanged()
+      .map(() => ({ used: Math.floor(Math.random() * 1024), total: 1024 } as MemoryStat))
+      .startWith({ used: 100, total: 1024 } as NetworkStat);
   }
 }
