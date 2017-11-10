@@ -23,7 +23,7 @@ export class AppCardComponent implements OnDestroy, OnInit {
 
   collapsed: boolean = true;
   podCount: Observable<number>;
-  version: string = '1.0.2';
+  version: Observable<string>;
 
   memoryConfig: any;
   memoryData: any = {
@@ -47,6 +47,9 @@ export class AppCardComponent implements OnDestroy, OnInit {
 
     this.podCount =
       this.appsService.getPodCount(this.applicationId, this.environment.environmentId);
+
+    this.version =
+      this.appsService.getVersion(this.applicationId, this.environment.environmentId);
   }
 
 }
