@@ -2,14 +2,13 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
-import { ISubscription } from 'rxjs/Subscription';
 
 import {
   AppsService,
   Environment
 } from './services/apps.service';
 
-import { Contexts } from 'ngx-fabric8-wit';
+import { Spaces } from 'ngx-fabric8-wit';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -22,25 +21,21 @@ export class AppsComponent implements OnDestroy, OnInit {
   environments: Observable<Environment[]>;
   applications: Observable<string[]>;
 
-  private contextSubscription: ISubscription;
-
   constructor(
-    private context: Contexts,
+    private spaces: Spaces,
     private appsService: AppsService
   ) {
-    this.spaceId = this.context.current.map(ctx => ctx.space.id);
+    this.spaceId = this.spaces.current.first().map(space => space.id);
    }
 
-  ngOnDestroy(): void {
-    this.contextSubscription.unsubscribe();
-  }
+  ngOnDestroy(): void { }
 
   ngOnInit(): void {
     this.updateResources();
   }
 
   private updateResources(): void {
-    this.contextSubscription = this.spaceId.subscribe(spaceId => {
+    this.spaceId.subscribe(spaceId => {
       this.environments =
         this.appsService.getEnvironments(spaceId);
 
