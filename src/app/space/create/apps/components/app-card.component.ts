@@ -1,5 +1,6 @@
 import {
   Component,
+  Inject,
   Input,
   OnDestroy,
   OnInit
@@ -7,7 +8,10 @@ import {
 
 import { Observable } from 'rxjs';
 
-import { AppsService } from '../services/apps.service';
+import {
+  APPS_SERVICE,
+  IAppsService
+} from '../services/apps.service';
 import { Environment } from '../models/environment';
 
 @Component({
@@ -24,7 +28,7 @@ export class AppCardComponent implements OnDestroy, OnInit {
   version: Observable<string>;
 
   constructor(
-    private appsService: AppsService
+    @Inject(APPS_SERVICE) private appsService: IAppsService
   ) { }
 
   ngOnDestroy(): void { }

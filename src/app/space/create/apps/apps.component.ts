@@ -1,11 +1,20 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
 import { Spaces } from 'ngx-fabric8-wit';
 
-import { AppsService } from './services/apps.service';
+import {
+  APPS_SERVICE,
+  IAppsService
+} from './services/apps.service';
 import { Environment } from './models/environment';
 
 @Component({
@@ -21,7 +30,7 @@ export class AppsComponent implements OnDestroy, OnInit {
 
   constructor(
     private spaces: Spaces,
-    private appsService: AppsService
+    @Inject(APPS_SERVICE) private appsService: IAppsService
   ) {
     this.spaceId = this.spaces.current.first().map(space => space.id);
    }

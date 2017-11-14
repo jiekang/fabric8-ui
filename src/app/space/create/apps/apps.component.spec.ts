@@ -15,7 +15,10 @@ import { Observable } from 'rxjs';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 import { AppsComponent } from './apps.component';
-import { AppsService } from './services/apps.service';
+import {
+  APPS_SERVICE,
+  IAppsService
+} from './services/apps.service';
 import { Environment } from './models/environment';
 
 import { Spaces } from 'ngx-fabric8-wit';
@@ -33,7 +36,7 @@ describe('AppsComponent', () => {
 
   let component: AppsComponent;
   let fixture: ComponentFixture<AppsComponent>;
-  let mockSvc: AppsService;
+  let mockSvc: IAppsService;
   let spaces: Spaces;
 
   beforeEach(() => {
@@ -63,7 +66,7 @@ describe('AppsComponent', () => {
       imports: [ CollapseModule.forRoot() ],
       declarations: [ AppsComponent, FakeAppCardComponent ],
       providers: [
-        { provide: AppsService, useValue: mockSvc },
+        { provide: APPS_SERVICE, useValue: mockSvc },
         { provide: Spaces, useValue: spaces }
       ]
     });

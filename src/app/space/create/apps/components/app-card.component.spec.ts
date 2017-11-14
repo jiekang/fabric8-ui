@@ -11,13 +11,16 @@ import { Observable } from 'rxjs';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 import { AppCardComponent } from './app-card.component';
-import { AppsService } from '../services/apps.service';
+import {
+  APPS_SERVICE,
+  IAppsService
+} from '../services/apps.service';
 
 describe('AppCardComponent', () => {
 
   let component: AppCardComponent;
   let fixture: ComponentFixture<AppCardComponent>;
-  let mockSvc: AppsService;
+  let mockSvc: IAppsService;
 
   beforeEach(() => {
     mockSvc = {
@@ -39,7 +42,7 @@ describe('AppCardComponent', () => {
     TestBed.configureTestingModule({
       imports: [ CollapseModule.forRoot() ],
       declarations: [ AppCardComponent ],
-      providers: [ { provide: AppsService, useValue: mockSvc } ]
+      providers: [ { provide: APPS_SERVICE, useValue: mockSvc } ]
     });
 
     fixture = TestBed.createComponent(AppCardComponent);
