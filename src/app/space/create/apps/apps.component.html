@@ -2,15 +2,15 @@
 
   <div class="cards-pf">
     <div class="row row-cards-pf">
-      <div class="col-xs-12 col-sm-4 col-md-2"><h3><strong>Applications</strong></h3></div>
-      <div class="col-xs-12 col-sm-4 col-md-2"><h3><strong>Environments</strong></h3></div>
+      <div class="codebase-apps-header-title"><h3><strong>Applications</strong></h3></div>
+      <div class="codebase-apps-header-title"><h3><strong>Environments</strong></h3></div>
     </div>
   </div>
 
   <div class="cards-pf">
     <div class="row row-cards-pf">
-      <div class="col-xs-12 col-sm-4 col-md-2"></div>
-      <div class="col-xs-12 col-sm-4 col-md-3" *ngFor="let environment of environments | async">
+      <div class="codebase-apps-sub-header-title"></div>
+      <div class="codebase-apps-sub-header-title" *ngFor="let environment of environments | async">
         <h4 style="text-transform: capitalize;">{{ environment.name }}</h4>
       </div>
     </div>
@@ -19,10 +19,10 @@
   <div class="cards-pf" *ngFor="let application of applications | async">
     <div class="container-fluid container-cards-pf">
       <div class="row row-cards-pf">
-        <div class="col-xs-6 col-sm-4 col-md-2">
+        <div class="codebase-apps-application-label">
           <h4>{{ application }}</h4>
         </div>
-        <app-card class="col-xs-6 col-sm-4 col-md-3" [applicationId]="application" [environment]="environment"
+        <app-card class="codebase-apps-environment-block" [applicationId]="application" [environment]="environment"
           *ngFor="let environment of environments | async"></app-card>
       </div>
     </div>
@@ -32,12 +32,12 @@
     <div class="panel-body cards-pf" style="background: lightgrey; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0;">
       <div class="container-fluid container-cards-pf" style="padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0;">
         <div class="row row-cards-pf">
-          <div class="col-xs-12 col-sm-4 col-md-2">
+          <div class="codebase-apps-resource-usage">
             <h3><strong><a style="color: black; cursor: pointer;"
               (click)="resourcesCollapsed = !resourcesCollapsed"><span class="fa fa-angle-down"></span>&nbsp;&nbsp;Resource Usage</a></strong></h3>
           </div>
           <div [collapse]="resourcesCollapsed">
-            <div class="col-xs-12 col-sm-4 col-md-3" *ngFor="let environment of environments | async">
+            <div class="codebase-apps-resource-usage-block" *ngFor="let environment of environments | async">
               <div class="card-pf">
                 <div class="card-pf-body" style="font-size: 12px;">
                   <div class="progress-container progress-description-left progress-label-right">
