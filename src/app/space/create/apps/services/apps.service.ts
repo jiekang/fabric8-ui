@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { Environment } from '../models/environment';
 import { CpuStat } from '../models/cpu-stat';
 import { MemoryStat } from '../models/memory-stat';
+import { NetworkStat } from '../models/network-stat';
 
 export const APPS_SERVICE = new InjectionToken<IAppsService>('IAppsService');
 
@@ -17,6 +18,7 @@ export declare interface IAppsService {
   getVersion(spaceId: string, environmentId: string): Observable<string>;
   getCpuStat(spaceId: string, environmentId: string): Observable<CpuStat>;
   getMemoryStat(spaceId: string, environmentId: string): Observable<MemoryStat>;
+  getNetworkStat(spaceId: string, environmentId: string): Observable<NetworkStat>;
 }
 
 @Injectable()
@@ -50,13 +52,23 @@ export class AppsService implements IAppsService {
     return Observable
       .interval(AppsService.POLL_RATE_MS)
       .distinctUntilChanged()
-      .map(() => ({ used: Math.floor(Math.random() * 9) + 1, total: 10 } as CpuStat));
-  }
+      .map(() => ({ used: Math.floor(Math.random() * 9) + 1, total: 10 } as CpuStat))
+      .startWith({ used: 3, total: 10 } as CpuStat);
+    }
 
   getMemoryStat(spaceId: string, environmentId: string): Observable<MemoryStat> {
     return Observable
       .interval(AppsService.POLL_RATE_MS)
       .distinctUntilChanged()
-      .map(() => ({ used: Math.floor(Math.random() * 156) + 100, total: 256 } as MemoryStat));
+      .map(() => ({ used: Math.floor(Math.random() * 156) + 100, total: 256 } as MemoryStat))
+      .startWith({ used: 200, total: 256 } as MemoryStat);
+  }
+
+  getNetworkStat(spaceId: string, environmentId: string): Observable<MemoryStat> {
+    return Observable
+      .interval(AppsService.POLL_RATE_MS)
+      .distinctUntilChanged()
+      .map(() => ({ used: Math.floor(Math.random() * 1024), total: 1024 } as MemoryStat))
+      .startWith({ used: 100, total: 1024 } as NetworkStat);
   }
 }

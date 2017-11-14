@@ -32,6 +32,17 @@ class FakeAppCardComponent {
   @Input() environment: Environment;
 }
 
+@Component({
+  selector: 'resource-card',
+  template: ''
+})
+class FakeResourceCardComponent {
+  @Input() spaceId: Observable<string>;
+  @Input() environment: Environment;
+  @Input() resourceTitle: string;
+  @Input() statSupplier: Function;
+}
+
 describe('AppsComponent', () => {
 
   let component: AppsComponent;
@@ -49,7 +60,8 @@ describe('AppsComponent', () => {
       getPodCount: () => { throw 'Not Implemented'; },
       getVersion: () => { throw 'NotImplemented'; },
       getCpuStat: () => { throw 'Not Implemented'; },
-      getMemoryStat: () => { throw 'Not Implemented'; }
+      getMemoryStat: () => { throw 'Not Implemented'; },
+      getNetworkStat: () => { throw 'Not Implemented'; }
     };
 
     spaces = {
@@ -61,10 +73,11 @@ describe('AppsComponent', () => {
     spyOn(mockSvc, 'getPodCount').and.callThrough();
     spyOn(mockSvc, 'getCpuStat').and.callThrough();
     spyOn(mockSvc, 'getMemoryStat').and.callThrough();
+    spyOn(mockSvc, 'getNetworkStat').and.callThrough();
 
     TestBed.configureTestingModule({
       imports: [ CollapseModule.forRoot() ],
-      declarations: [ AppsComponent, FakeAppCardComponent ],
+      declarations: [ AppsComponent, FakeAppCardComponent, FakeResourceCardComponent ],
       providers: [
         { provide: APPS_SERVICE, useValue: mockSvc },
         { provide: Spaces, useValue: spaces }

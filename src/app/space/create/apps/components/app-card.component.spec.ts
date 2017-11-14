@@ -29,7 +29,8 @@ describe('AppCardComponent', () => {
       getPodCount: () => Observable.of(2),
       getVersion: () => Observable.of('1.2.3'),
       getCpuStat: () => { throw 'Not Implemented'; },
-      getMemoryStat: () => { throw 'Not Implemented'; }
+      getMemoryStat: () => { throw 'Not Implemented'; },
+      getNetworkStat: () => { throw 'Not Implemented'; }
     };
 
     spyOn(mockSvc, 'getApplications').and.callThrough();
@@ -37,6 +38,7 @@ describe('AppCardComponent', () => {
     spyOn(mockSvc, 'getPodCount').and.callThrough();
     spyOn(mockSvc, 'getCpuStat').and.callThrough();
     spyOn(mockSvc, 'getMemoryStat').and.callThrough();
+    spyOn(mockSvc, 'getNetworkStat').and.callThrough();
     spyOn(mockSvc, 'getVersion').and.callThrough();
 
     TestBed.configureTestingModule({
