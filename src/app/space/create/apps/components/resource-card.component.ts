@@ -6,10 +6,10 @@ import {
 } from '@angular/core';
 
 import {
-  AppsService,
-  Environment,
-  Stat
+  APPS_SERVICE,
+  IAppsService
 } from '../services/apps.service';
+import { Environment } from '../models/environment';
 
 import { Observable } from 'rxjs';
 

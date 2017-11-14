@@ -1,16 +1,18 @@
 import {
   Component,
+  Inject,
   Input,
   OnDestroy,
   OnInit
 } from '@angular/core';
 
-import {
-  AppsService,
-  Environment
-} from '../services/apps.service';
-
 import { Observable } from 'rxjs';
+
+import {
+  APPS_SERVICE,
+  IAppsService
+} from '../services/apps.service';
+import { Environment } from '../models/environment';
 
 @Component({
   selector: 'app-card',
@@ -23,30 +25,20 @@ export class AppCardComponent implements OnDestroy, OnInit {
 
   collapsed: boolean = true;
   podCount: Observable<number>;
-  version: string = '1.0.2';
-
-  memoryConfig: any;
-  memoryData: any = {
-    dataAvailable: true,
-    total: 100,
-    xData: ['time', 10, 11, 12],
-    yData: ['memory', 10, 20, 30]
-  };
+  version: Observable<string>;
 
   constructor(
-    private appsService: AppsService
+    @Inject(APPS_SERVICE) private appsService: IAppsService
   ) { }
 
   ngOnDestroy(): void { }
 
   ngOnInit(): void {
-    this.memoryConfig = {
-      chartId: 'memory-' + this.applicationId + '-' + this.environment.name,
-      tooltipType: 'default'
-    };
-
     this.podCount =
       this.appsService.getPodCount(this.applicationId, this.environment.environmentId);
+
+    this.version =
+      this.appsService.getVersion(this.applicationId, this.environment.environmentId);
   }
 
 }

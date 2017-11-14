@@ -23,6 +23,7 @@ describe('ResourceCardComponent', () => {
       getApplications: () => { throw 'Not Implemented'; },
       getEnvironments: () => { throw 'Not Implemented'; },
       getPodCount: () => Observable.of(2),
+      getVersion: () => Observable.of('1.2.3'),
       getCpuStat: () => Observable.of({ used: 3, total: 10}),
       getMemoryStat: () => Observable.of({ used: 500, total: 1024}),
       getNetworkStat: () => Observable.of({ used: 64, total: 2048})
@@ -34,6 +35,7 @@ describe('ResourceCardComponent', () => {
     spyOn(mockSvc, 'getCpuStat').and.callThrough();
     spyOn(mockSvc, 'getMemoryStat').and.callThrough();
     spyOn(mockSvc, 'getNetworkStat').and.callThrough();
+    spyOn(mockSvc, 'getVersion').and.callThrough();
 
     TestBed.configureTestingModule({
       imports: [ CollapseModule.forRoot() ],
@@ -64,7 +66,6 @@ describe('ResourceCardComponent', () => {
     });
 
     it('should be set from mockSvc function', () => {
-      // expect(mockSvc.getPodCount).toHaveBeenCalledWith('mockAppId', 'mockEnvironmentId');
       expect(el.textContent).toEqual('3 of 5');
     });
   });

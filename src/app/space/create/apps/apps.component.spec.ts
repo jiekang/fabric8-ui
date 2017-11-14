@@ -16,11 +16,12 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 import { AppsComponent } from './apps.component';
 import {
-  AppsService,
-  Environment
+  APPS_SERVICE,
+  IAppsService
 } from './services/apps.service';
+import { Environment } from './models/environment';
 
-import { Contexts } from 'ngx-fabric8-wit';
+import { Spaces } from 'ngx-fabric8-wit';
 
 @Component({
   selector: 'app-card',
@@ -31,12 +32,23 @@ class FakeAppCardComponent {
   @Input() environment: Environment;
 }
 
+@Component({
+  selector: 'resource-card',
+  template: ''
+})
+class FakeResourceCardComponent {
+  @Input() spaceId: Observable<string>;
+  @Input() environment: Environment;
+  @Input() resourceTitle: string;
+  @Input() statSupplier: Function;
+}
+
 describe('AppsComponent', () => {
 
   let component: AppsComponent;
   let fixture: ComponentFixture<AppsComponent>;
-  let mockSvc: AppsService;
-  let contexts: Contexts;
+  let mockSvc: IAppsService;
+  let spaces: Spaces;
 
   beforeEach(() => {
     mockSvc = {
@@ -46,20 +58,15 @@ describe('AppsComponent', () => {
         { environmentId: 'b2', name: 'prod' }
       ]),
       getPodCount: () => { throw 'Not Implemented'; },
+      getVersion: () => { throw 'NotImplemented'; },
       getCpuStat: () => { throw 'Not Implemented'; },
       getMemoryStat: () => { throw 'Not Implemented'; },
       getNetworkStat: () => { throw 'Not Implemented'; }
     };
 
-    contexts = {
-      current: Observable.of({
-        user: null,
-        space: { id: 'fake-spaceId' },
-        type: null,
-        path: '',
-        name: 'fake-ctx'
-      })
-    } as Contexts;
+    spaces = {
+      current: Observable.of({ id: 'fake-spaceId' })
+    } as Spaces;
 
     spyOn(mockSvc, 'getApplications').and.callThrough();
     spyOn(mockSvc, 'getEnvironments').and.callThrough();
@@ -70,10 +77,10 @@ describe('AppsComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [ CollapseModule.forRoot() ],
-      declarations: [ AppsComponent, FakeAppCardComponent ],
+      declarations: [ AppsComponent, FakeAppCardComponent, FakeResourceCardComponent ],
       providers: [
-        { provide: AppsService, useValue: mockSvc },
-        { provide: Contexts, useValue: contexts }
+        { provide: APPS_SERVICE, useValue: mockSvc },
+        { provide: Spaces, useValue: spaces }
       ]
     });
 
