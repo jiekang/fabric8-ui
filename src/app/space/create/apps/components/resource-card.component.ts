@@ -29,9 +29,7 @@ export class ResourceCardComponent implements OnInit {
   usedPercent: number;
   unusedPercent: number;
 
-  constructor(
-    // private appsService: AppsService
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
     this.statSupplier('fakeSpaceId', this.environment.environmentId)

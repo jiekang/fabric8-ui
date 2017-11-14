@@ -47,7 +47,8 @@ describe('AppsComponent', () => {
       ]),
       getPodCount: () => { throw 'Not Implemented'; },
       getCpuStat: () => { throw 'Not Implemented'; },
-      getMemoryStat: () => { throw 'Not Implemented'; }
+      getMemoryStat: () => { throw 'Not Implemented'; },
+      getNetworkStat: () => { throw 'Not Implemented'; }
     };
 
     contexts = {
@@ -65,6 +66,7 @@ describe('AppsComponent', () => {
     spyOn(mockSvc, 'getPodCount').and.callThrough();
     spyOn(mockSvc, 'getCpuStat').and.callThrough();
     spyOn(mockSvc, 'getMemoryStat').and.callThrough();
+    spyOn(mockSvc, 'getNetworkStat').and.callThrough();
 
     TestBed.configureTestingModule({
       imports: [ CollapseModule.forRoot() ],
