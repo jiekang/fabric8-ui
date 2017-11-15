@@ -16,9 +16,12 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 import { AppsComponent } from './apps.component';
 import {
-  AppsService,
-  Environment
+  APPS_SERVICE,
+  IAppsService
 } from './services/apps.service';
+import { Environment } from './models/environment';
+
+import { Spaces } from 'ngx-fabric8-wit';
 
 @Component({
   selector: 'app-card',
@@ -33,7 +36,8 @@ describe('AppsComponent', () => {
 
   let component: AppsComponent;
   let fixture: ComponentFixture<AppsComponent>;
-  let mockSvc: AppsService;
+  let mockSvc: IAppsService;
+  let spaces: Spaces;
 
   beforeEach(() => {
     mockSvc = {
@@ -43,9 +47,14 @@ describe('AppsComponent', () => {
         { environmentId: 'b2', name: 'prod' }
       ]),
       getPodCount: () => { throw 'Not Implemented'; },
+      getVersion: () => { throw 'NotImplemented'; },
       getCpuStat: () => { throw 'Not Implemented'; },
       getMemoryStat: () => { throw 'Not Implemented'; }
     };
+
+    spaces = {
+      current: Observable.of({ id: 'fake-spaceId' })
+    } as Spaces;
 
     spyOn(mockSvc, 'getApplications').and.callThrough();
     spyOn(mockSvc, 'getEnvironments').and.callThrough();
@@ -56,7 +65,10 @@ describe('AppsComponent', () => {
     TestBed.configureTestingModule({
       imports: [ CollapseModule.forRoot() ],
       declarations: [ AppsComponent, FakeAppCardComponent ],
-      providers: [{ provide: AppsService, useValue: mockSvc }]
+      providers: [
+        { provide: APPS_SERVICE, useValue: mockSvc },
+        { provide: Spaces, useValue: spaces }
+      ]
     });
 
     fixture = TestBed.createComponent(AppsComponent);
@@ -65,17 +77,23 @@ describe('AppsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should set service result to applications property', () => {
-    expect(mockSvc.getApplications).toHaveBeenCalled();
-    expect(component.applications).toEqual(['foo-app', 'bar-app']);
+  it('should set service result to applications property', (done: DoneFn) => {
+    expect(mockSvc.getApplications).toHaveBeenCalledWith('fake-spaceId');
+    component.applications.subscribe(applications => {
+      expect(applications).toEqual(['foo-app', 'bar-app']);
+      done();
+    });
   });
 
-  it('should set service result to environments property', () => {
-    expect(mockSvc.getEnvironments).toHaveBeenCalled();
-    expect(component.environments).toEqual([
-      { environmentId: 'a1', name: 'stage' },
-      { environmentId: 'b2', name: 'prod' }
-    ]);
+  it('should set service result to environments property', (done: DoneFn) => {
+    expect(mockSvc.getEnvironments).toHaveBeenCalledWith('fake-spaceId');
+    component.environments.subscribe(environments => {
+      expect(environments).toEqual([
+        { environmentId: 'a1', name: 'stage' },
+        { environmentId: 'b2', name: 'prod' }
+      ]);
+      done();
+    });
   });
 
 });

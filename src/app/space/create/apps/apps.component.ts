@@ -1,13 +1,21 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
-import { ISubscription } from 'rxjs/Subscription';
+
+import { Spaces } from 'ngx-fabric8-wit';
 
 import {
-  AppsService,
-  Environment
+  APPS_SERVICE,
+  IAppsService
 } from './services/apps.service';
+import { Environment } from './models/environment';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -16,15 +24,17 @@ import {
   styleUrls: ['./apps.component.less']
 })
 export class AppsComponent implements OnDestroy, OnInit {
-  spaceId: string;
+
+  spaceId: Observable<string>;
   environments: Observable<Environment[]>;
   applications: Observable<string[]>;
 
   constructor(
-    private appsService: AppsService
+    private spaces: Spaces,
+    @Inject(APPS_SERVICE) private appsService: IAppsService
   ) {
-    this.spaceId = 'placeholder-space';
-  }
+    this.spaceId = this.spaces.current.first().map(space => space.id);
+   }
 
   ngOnDestroy(): void { }
 
@@ -33,11 +43,13 @@ export class AppsComponent implements OnDestroy, OnInit {
   }
 
   private updateResources(): void {
-    this.environments =
-      this.appsService.getEnvironments(this.spaceId);
+    this.spaceId.subscribe(spaceId => {
+      this.environments =
+        this.appsService.getEnvironments(spaceId);
 
-    this.applications =
-      this.appsService.getApplications(this.spaceId);
+      this.applications =
+        this.appsService.getApplications(spaceId);
+    });
   }
 
 }

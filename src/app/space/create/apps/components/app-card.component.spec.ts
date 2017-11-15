@@ -11,19 +11,23 @@ import { Observable } from 'rxjs';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 import { AppCardComponent } from './app-card.component';
-import { AppsService } from '../services/apps.service';
+import {
+  APPS_SERVICE,
+  IAppsService
+} from '../services/apps.service';
 
 describe('AppCardComponent', () => {
 
   let component: AppCardComponent;
   let fixture: ComponentFixture<AppCardComponent>;
-  let mockSvc: AppsService;
+  let mockSvc: IAppsService;
 
   beforeEach(() => {
     mockSvc = {
       getApplications: () => { throw 'Not Implemented'; },
       getEnvironments: () => { throw 'Not Implemented'; },
       getPodCount: () => Observable.of(2),
+      getVersion: () => Observable.of('1.2.3'),
       getCpuStat: () => { throw 'Not Implemented'; },
       getMemoryStat: () => { throw 'Not Implemented'; }
     };
@@ -33,11 +37,12 @@ describe('AppCardComponent', () => {
     spyOn(mockSvc, 'getPodCount').and.callThrough();
     spyOn(mockSvc, 'getCpuStat').and.callThrough();
     spyOn(mockSvc, 'getMemoryStat').and.callThrough();
+    spyOn(mockSvc, 'getVersion').and.callThrough();
 
     TestBed.configureTestingModule({
       imports: [ CollapseModule.forRoot() ],
       declarations: [ AppCardComponent ],
-      providers: [ { provide: AppsService, useValue: mockSvc } ]
+      providers: [ { provide: APPS_SERVICE, useValue: mockSvc } ]
     });
 
     fixture = TestBed.createComponent(AppCardComponent);
@@ -73,8 +78,9 @@ describe('AppCardComponent', () => {
       el = de.nativeElement;
     });
 
-    it('should be set to 1.0.2', () => {
-      expect(el.textContent).toEqual('1.0.2');
+    it('should be set from mockSvc.getVersion result', () => {
+      expect(mockSvc.getVersion).toHaveBeenCalledWith('mockAppId', 'mockEnvironmentId');
+      expect(el.textContent).toEqual('1.2.3');
     });
   });
 
