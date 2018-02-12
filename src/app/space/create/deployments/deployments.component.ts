@@ -16,6 +16,7 @@ import {
   TIMER_TOKEN,
   TIMESERIES_SAMPLES_TOKEN
 } from './services/deployments.service';
+import { DeploymentsWsService } from './services/deployments.ws.service';
 
 export function timerFactory(): Observable<void> {
   return Observable
@@ -33,6 +34,7 @@ export function timerFactory(): Observable<void> {
     DeploymentStatusService,
     DeploymentsService,
     { provide: TIMER_TOKEN, useFactory: timerFactory },
+    DeploymentsWsService,
     { provide: TIMESERIES_SAMPLES_TOKEN, useValue: DeploymentsService.DEFAULT_FRONT_LOAD_SAMPLES },
     { provide: POLL_RATE_TOKEN, useValue: DeploymentsService.DEFAULT_POLL_RATE_MS }
   ]
@@ -46,7 +48,8 @@ export class DeploymentsComponent {
 
   constructor(
     private readonly spaces: Spaces,
-    private readonly deploymentsService: DeploymentsService
+    private readonly deploymentsService: DeploymentsService,
+    private readonly deploymentsWsService: DeploymentsWsService
   ) {
     this.spaceId = this.spaces.current.first().map((space: Space): string => space.id);
     this.spaceName = this.spaces.current.first().map((space: Space): string => space.attributes.name);
@@ -54,4 +57,7 @@ export class DeploymentsComponent {
     this.applications = this.spaceId.flatMap((spaceId: string): Observable<string[]> => this.deploymentsService.getApplications(spaceId));
   }
 
+  ngOnInit(): void {
+    this.deploymentsWsService.getText();
+  }
 }
