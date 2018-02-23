@@ -147,7 +147,8 @@ export class DeploymentApiService {
     if (this.auth.getToken() != null) {
       this.headers.set('Authorization', `Bearer ${this.auth.getToken()}`);
     }
-    this.apiUrl = witUrl + 'deployments/spaces/';
+    // this.apiUrl = witUrl + 'deployments/spaces/';
+    this.apiUrl = 'http://localhost:8080/api/deployments/spaces/';
   }
 
   getEnvironments(spaceId: string): Observable<EnvironmentStat[]> {
