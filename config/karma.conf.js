@@ -72,6 +72,10 @@ module.exports = function (config) {
      */
     reporters: ['mocha', 'coverage'],
 
+    mochaReporter: {
+      ignoreSkipped: true
+    },
+
     // web server port
     port: 9876,
 
