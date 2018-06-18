@@ -42,6 +42,7 @@ import { AboutService } from './shared/about.service';
 import { ProviderService } from './shared/account/provider.service';
 import { AnalyticService } from './shared/analytics.service';
 import { BrandingService } from './shared/branding.service';
+import { EventBusRegistry } from './shared/event-bus-registry';
 import { LoginService } from './shared/login.service';
 import { NotificationsService } from './shared/notifications.service';
 
@@ -123,6 +124,9 @@ describe('AppComponent', () => {
           logger.error.and.stub();
           return logger;
         }
+      },
+      {
+        provide: EventBusRegistry, useValue: null
       },
       MockContextResolver
     ],
