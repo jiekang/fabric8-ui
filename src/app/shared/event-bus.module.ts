@@ -14,8 +14,12 @@ import {
   EventType
 } from './event-bus.service';
 
+import { DeploymentsBackendModule } from '../space/create/deployments/deployments-backend.module';
+
 @NgModule({
-  imports: [],
+  imports: [
+    DeploymentsBackendModule
+  ],
   providers: [
     EventBus,
     EventBusRegistry,
