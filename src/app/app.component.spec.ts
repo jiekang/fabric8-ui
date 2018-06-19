@@ -42,6 +42,8 @@ import { AboutService } from './shared/about.service';
 import { ProviderService } from './shared/account/provider.service';
 import { AnalyticService } from './shared/analytics.service';
 import { BrandingService } from './shared/branding.service';
+import { EventBusRegistry } from './shared/event-bus-registry';
+import { EventBus } from './shared/event-bus.service';
 import { LoginService } from './shared/login.service';
 import { NotificationsService } from './shared/notifications.service';
 
@@ -123,6 +125,15 @@ describe('AppComponent', () => {
           logger.error.and.stub();
           return logger;
         }
+      },
+      {
+        provide: EventBus, useFactory: () => {
+          const bus: jasmine.SpyObj<EventBus> = createMock(EventBus);
+          return bus;
+        }
+      },
+      {
+        provide: EventBusRegistry, useValue: null
       },
       MockContextResolver
     ],
